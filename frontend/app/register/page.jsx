@@ -28,13 +28,13 @@ export default function Register() {
 
         try {
             const response = await api.post("/auth/register", formData);
-            
-            
+
+
             if (response.status === 200) {
-  setTimeout(() => {
-    router.replace("/dashboard");
-  }, 0);
-}
+                setTimeout(() => {
+                    router.replace("/dashboard");
+                }, 0);
+            }
 
         } catch (error) {
             setError(error.response?.data?.error || "Registration failed. Please try again.");
@@ -42,7 +42,7 @@ export default function Register() {
             setLoading(false);
         }
     };
- 
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 px-4">
             <div className="w-full max-w-md bg-slate-900/80 border border-slate-800 rounded-2xl shadow-2xl shadow-slate-900/50 backdrop-blur-md p-8">
