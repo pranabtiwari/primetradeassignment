@@ -11,16 +11,24 @@ const app = express();
 connectDB();
 
 app.use(cors({
-    origin: process.env.FRONTEND_URL,
-    credentials: true,
+  origin: process.env.FRONTEND_URL,
+  credentials: true,
 }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/me", userRoutes);
 app.use("/api/v1/tasks", taskRoutes);
 
-export default app;
+app.get("/", (req, res) => {
+  res.send({
+    active: true,
+    message: "Welcome to the PrimeTrade API",
+    version: "1.0.0",
+  })
+});
+
+export default app;   // ✅ correct
