@@ -8,13 +8,13 @@ import authSchema from '../schemas/auth.schema.js';
 const register = async (req, res) => {
     const parsed = authSchema.registerSchema.safeParse(req.body);
 
-    
+
     if (!parsed.success) {
         return res.status(400).json({ error: parsed.error.errors });
     }
     const { username, email, password } = parsed.data;
 
-    const existingUser = await User.findOne({ $or: [ { email }, { username } ] });
+    const existingUser = await User.findOne({ $or: [{ email }, { username }] });
     if (existingUser) {
         return res.status(400).json({ error: 'Username or email already in use' });
     }
@@ -30,12 +30,12 @@ const register = async (req, res) => {
     await newUser.save();
 
     return res.status(201).json({ message: 'User registered successfully' });
-    
+
 }
 
 const login = async (req, res) => {
     const loginSchema = authSchema.loginSchema.safeParse(req.body);
-    
+
     if (!loginSchema.success) {
         return res.status(400).json({ error: loginSchema.error.errors });
     }
@@ -57,16 +57,17 @@ const login = async (req, res) => {
         { expiresIn: '1h' }
     );
 
-    res.cookie('token', token, {
+    res.cookie("token", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        secure: true,          // HTTPS (required)
+        sameSite: "none",      // cross-site
+        domain: ".vercel.app", // 🔥 KEY LINE
         path: "/",
-        maxAge: 60 * 60 * 1000, 
+        maxAge: 60 * 60 * 1000,
     });
 
-    
-    return res.status(200).json({ 
+
+    return res.status(200).json({
         message: 'User logged in successfully',
         token
     });
@@ -77,10 +78,10 @@ const login = async (req, res) => {
 
 
 export default {
-  register,
-  login
+    register,
+    login
 };
 
 
-    
+
 
