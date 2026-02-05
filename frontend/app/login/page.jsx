@@ -27,7 +27,7 @@ export default function LoginPage() {
         try {
             const response = await api.post("/auth/login", formData);
             if (response.status === 200) {
-                router.push("/dashboard");
+                router.replace("/dashboard")
             }
         } catch (error) {
             console.error("Login failed:", error.response?.data?.error || error.message);

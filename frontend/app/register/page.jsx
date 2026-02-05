@@ -30,9 +30,11 @@ export default function Register() {
             const response = await api.post("/auth/register", formData);
             
             
-            if (response.status === 201) {
-                router.push("/login");
-            }
+            if (response.status === 200) {
+  setTimeout(() => {
+    router.replace("/dashboard");
+  }, 0);
+}
 
         } catch (error) {
             setError(error.response?.data?.error || "Registration failed. Please try again.");
