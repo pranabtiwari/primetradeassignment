@@ -59,12 +59,12 @@ const login = async (req, res) => {
 
     res.cookie("token", token, {
         httpOnly: true,
-        secure: true,          // HTTPS (required)
-        sameSite: "none",      // cross-site
-        domain: ".vercel.app", // 🔥 KEY LINE
-        path: "/",
+        secure: true,
+        sameSite: "none",
+        path: "/",                  // REQUIRED
         maxAge: 60 * 60 * 1000,
     });
+
 
 
     return res.status(200).json({
